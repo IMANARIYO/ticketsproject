@@ -1,0 +1,7 @@
+export * from "./usersModel.js"
+export * from "./ticketModels.js"
+export * from"./routes.js"
+export * from "./travelAgency.js"
+export * from "./carsModel.js"
+export *from "./journeyModel.js"
+export * from"./author&&book.js"

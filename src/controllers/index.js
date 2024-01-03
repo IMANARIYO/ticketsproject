@@ -1,0 +1,8 @@
+export * from"./creating.js"
+export * from"./deleteall.js"
+export * from"./findUsingId.js"
+export * from"./updateBYID.js"
+export * from"./deleteone.js"
+export *from"./gettingALL.js"
+export * from"./specialfunctions.js"
+export *from"./generalpurpusefindby id.js"

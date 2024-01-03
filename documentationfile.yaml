@@ -1,0 +1,1521 @@
+openapi: "3.0.0"
+info:
+  title: User API
+  version: "1.0.0"
+  description: |
+    API documentation for tickets managements system 
+    Phone: 0787795163
+  contact:
+    name: imanariyo baptiste
+    email: "imanariyo@gmail.com"
+    url: "tel:0787795163"
+servers:
+  - url: http://localhost:9900
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Journey:
+      type: object
+      properties:
+        departureDateTime:
+          type: string car:
+          type: object
+          description: Car information for the journey
+          
+        
+        
+      required:
+        - departureDateTime
+       
+      
+    TravelAgency:
+      type: object
+      properties:
+        agencyName:
+          type: string
+          description: Name of the travel agency
+          example: "ABC Travels"
+        contactInformation:
+          type: string
+          description: Contact information for the travel agency
+          example: "Phone: xxx-xxx-xxxx, Email: info@abc-travels.com"   
+    Car:
+      type: object
+      properties:
+        model:
+          type: string
+          description: 'Car model'
+          example: 'Sedan'
+        make:
+          type: string
+          description: 'Car make'
+          example: 'Toyota'
+        year:
+          type: integer
+          description: 'Year of manufacture'
+          example: 2022
+        availableSeats:
+          type: integer
+          description: 'Number of available seats in the car'
+          example: 5
+        driverName:
+          type: string
+          description: 'Name of the car driver'
+          example: 'John Doe'
+        telephone:
+          type: string
+          description: 'Driver telephone number'
+          example: '+1234567890'
+        
+      required:
+        - model
+        - make
+        - year
+        - availableSeats
+        - driverName
+        - telephone
+
+    Route:
+        type: object
+        properties:
+          
+          departureCity:
+            type: string
+            description: Departure City
+            example: "CityA"
+           
+          destinationCity:
+            type: string
+            description: Destination City
+            example: "CityB"
+          distance:
+            type: number
+            description: Distance
+            example: 100
+          duration:
+            type: number
+            description: Duration
+            example: 120
+          price:
+            type: number
+            description: price to cover the route created 
+            example: 700
+        required:
+   
+          - departureCity
+          - destinationCity
+          - distance
+          - duration
+          - price
+  
+    TravelAgency:
+      type: object
+      properties:
+        agencyID:
+          type: string
+          description: 'Unique identifier for the travel agency'
+        agencyName:
+          type: string
+          description: 'Name of the travel agency'
+        contactInformation:
+          type: string
+          description: 'Contact information for the travel agency (e.g., phone and email)'
+        user:
+          type: string
+          description: 'User ID associated with the travel agency'
+        availableTickets:
+          type: array
+          items:
+            type: string
+          description: 'Array of Ticket IDs associated with the travel agency'
+      required:
+        - agencyName
+        - contactInformation
+        - user    
+    Ticket:
+      type: object
+      properties:
+        departureCity:
+          type: string
+          description: Departure City
+          example: "CityA"
+        destinationCity:
+          type: string
+          description: Destination City
+          example: "CityB"
+        departureDateTime:
+          type: string
+          format: date-time
+          description: Departure Date and Time
+          example: "2023-12-31T08:00:00"
+        price:
+          type: string
+          description: Price
+          example: "50.00"
+        availableSeats:
+          type: number
+          description: Available Seats
+          example: 100
+        routeId:
+          type: string
+          description: Route ID
+          example: "12345"
+        travelAgencyId:
+          type: string
+          description: Travel Agency ID
+          example: "67890"
+      required:
+        - departureCity
+        - destinationCity
+        - departureDateTime
+        - price
+        - availableSeats
+        - routeId
+        - travelAgencyId
+      default:
+        departureCity: "CityA"
+        destinationCity: "CityB"
+        departureDateTime: "2023-12-31T08:00:00"
+        price: "50.00"
+        availableSeats: 100
+        routeId: "12345"
+        travelAgencyId: "67890"
+definitions:
+  RouteResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        description: Success message
+        example: 'Route operation successful'
+      data:
+        $ref: '#/components/schemas/Route'
+
+  RoutesListResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        description: Success message
+        example: 'Routes retrieved successfully'
+      routes:
+        type: array
+        items:
+          $ref: '#/components/schemas/Route'
+
+  ErrorResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        description: Error message
+      example: 'Route not found'
+
+  SuccessResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        description: Success message
+        example: 'Operation successful' 
+
+paths:
+  /auth/deleteUserById/{id}:
+    delete:
+      summary: "Delete a user by ID"
+      tags:
+        - 'authentication'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the user to be deleted
+      responses:
+        '200':
+          description: "User deleted successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: "Success message"
+                    example: "User deleted successfully"
+                  
+        '404':
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: "Error message"
+                    example: "User not found"
+        '500':
+          description: "Internal Server Error"
+            
+  /auth/signup:
+    post:
+      summary: User Signup
+      tags: [authentication]
+      operationId: signup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - fullNames
+                - email
+                - password
+                - phoneNumber
+                - sex
+                - location
+                - role
+              properties:
+                fullNames:
+                  type: string
+                  example: "John Doe"
+                sex:
+                  type: string
+                  example: "Male"  
+                email:
+                  type: string
+                  example: "imanariyobaptiste@gmail.com"
+                password:
+                  type: string
+                  example: "123"
+                phoneNumber:
+                  type: number
+                  example: 1234567890
+                location:
+                  type: string
+                  example: "City, Country"
+                role:
+                  type: string
+                  example: "user"
+      responses:
+        '200':
+          description: User registered successfully
+        '500':
+          description: Internal Server Error
+
+  /auth/login:
+    post:
+      summary: User Login
+      tags: [authentication]
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: "imanariyobaptiste@gmail.com"
+                password:
+                  type: string
+                  example: "123"
+      responses:
+        '200':
+          description: User logged in successfully
+        '401':
+          description: Unauthorized - Invalid credentials
+        '500':
+          description: Internal Server Error
+
+  /auth/forget:
+    post:
+      summary: Generate and Send OTP for Password Reset
+      tags: [authentication]
+      operationId: generateAndSendOTP
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  example: "imanariyobaptiste@gmail.com"
+      responses:
+        '200':
+          description: OTP generated and sent successfully
+        '404':
+          description: User not found
+        '500':
+          description: Internal Server Error
+
+  /auth/reset:
+    post:
+      summary: Verify OTP and Update Password
+      tags: [authentication]
+      operationId: verifyOTPAndUpdatePassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - otp
+                - newpassword
+              properties:
+                email:
+                  type: string
+                  example: "imanariyobaptiste@gmail.com"
+                otp:
+                  type: string
+                  example: "4225261"
+                newpassword:
+                  type: string
+                  example: "123"
+      responses:
+        '200':
+          description: Password updated successfully
+        '404':
+          description: User not found
+        '401':
+          description: Unauthorized - Invalid OTP
+        '500':
+          description: Internal Server Error
+
+  /auth/change:
+    post:
+      summary: Change Password (Authenticated Route)
+      tags: [authentication]
+      operationId: changepassword
+      parameters:
+        - name: Authorization
+          in: header
+          description: JWT token obtained after user login
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - currentpassword
+                - newpassword
+              properties:
+                currentpassword:
+                  type: string
+                  example: "123"
+                newpassword:
+                  type: string
+                  example: "123"
+      responses:
+        '200':
+          description: Password changed successfully
+        '401':
+          description: Unauthorized - Invalid token
+        '500':
+          description: Internal Server Error
+  /auth/getAllUsers:
+    get:
+      summary: 'Get all users'
+      tags:
+        - 'authentication'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 'Users retrieved successfully'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: 'Success message'
+                    example: 'Users retrieved successfully'
+                  users:
+                    type: array
+                    description: 'List of users'
+                    items:
+                      type: object
+                      properties:
+                        email:
+                          type: string
+                          description: 'User email'
+                        location:
+                          type: string
+                          description: 'User location'
+                        fullname:
+                          type: string
+                          description: 'User full name'
+                        phone:
+                          type: string
+                          description: 'User phone number'
+                        role:
+                          type: string
+                          enum: 
+                            - user
+                            - admin
+                            - travelAgency
+                            - routesSetter
+                          description: 'User role'
+        '404':
+          description: 'No users found'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: 'Error message'
+                    example: 'No users found'
+        '500':
+          description: 'Internal Server Error'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: 'Error message'
+                    example: 'Internal Server Error'
+  /auth/updateUserById/{id}:
+    patch:
+      summary: "Update a user by ID"
+      tags:
+        - 'authentication'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the user to be updated
+        - name: updatedUserData
+          in: body
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - fullNames
+                  - email
+                  - password
+                  - phoneNumber
+                  - location
+                  - role
+                properties:
+                  fullNames:
+                    type: string
+                    example: "John Doe"
+                  email:
+                    type: string
+                    example: "imanariyobaptiste@gmail.com"
+                  password:
+                    type: string
+                    example: "123"
+                  phoneNumber:
+                    type: number
+                    example: 1234567890
+                  location:
+                    type: string
+                    example: "City, Country"
+                  role:
+                    type: string
+                    example: "user"
+      responses:
+        '200':
+          description: User updated successfully
+        '500':
+          description: Internal Server Error
+  /ticket/getAllTickets:
+    get:
+      summary: Get all tickets
+      tags:
+        - 'Ticket'
+      responses:
+        '200':
+          description: Tickets retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Tickets retrieved successfully'
+                  tickets:
+                    type: array
+                    description: List of tickets
+                    items:
+                      $ref: '#/components/schemas/Ticket'
+        '404':
+          description: No tickets found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: 'No tickets found'
+        '500':
+          description: Internal Server Error
+
+  /ticket/createTicket/{JOurneyID}:
+    post:
+      summary: Create a new ticket
+      tags:
+        - 'Ticket'
+      parameters:
+        - name: JOurneyID
+          in: path
+          required: true
+          description: JOurneyID of the JOURNEY TO BE BOOKED
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+             type: string
+          description: ID of the ticket to be retrieved
+      responses:
+        '201':
+          description: Ticket created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Ticket created successfully'
+                  data:
+                    $ref: '#/components/schemas/Ticket'
+        '400':
+          description: Bad Request - Invalid input data
+        '500':
+          description: Internal Server Error
+
+  /ticket/findTicket/{id}:
+    get:
+      summary: Get a specific ticket by ID
+      tags:
+        - 'Ticket'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the ticket to be retrieved
+      responses:
+        '200':
+          description: Ticket retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Ticket retrieved successfully'
+                  data:
+                    $ref: '#/components/schemas/Ticket'
+        '404':
+          description: Ticket not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: 'Ticket not found'
+        '500':
+          description: Internal Server Error
+
+  /ticket/updateTicket/{id}:
+    patch:
+      summary: Update a specific ticket by ID
+      tags:
+        - 'Ticket'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the ticket to be updated
+      requestBody:
+        required: true  
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+      responses:
+        '200':
+          description: Ticket updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Ticket updated successfully'
+                  data:
+                    $ref: '#/components/schemas/Ticket'
+        '404':
+          description: Ticket not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: 'Ticket not found'
+        '500':
+          description: Internal Server Error
+ 
+  /ticket/deleteTicket/{id}:
+    delete:
+      summary: Delete a specific ticket by ID
+      tags:
+        - 'Ticket'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the ticket to be deleted
+      responses:
+        '200':
+          description: Ticket deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Ticket deleted successfully'
+                  data:
+                    $ref: '#/components/schemas/Ticket'
+        '404':
+          description: Ticket not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: 'Ticket not found'
+        '500':
+          description: Internal Server Error
+
+  /ticket/deleteAllTickets:
+    delete:
+      summary: Delete all tickets (use with caution)
+      tags:
+        - 'Ticket'
+      responses:
+        '200':
+          description: Tickets deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Tickets deleted successfully'
+        '500':
+          description: Internal Server Error
+  /car/insertCar/{agenceId}:
+    post:
+      summary: Create a new car for a given specific travel agence
+      tags:
+        - 'Car'
+      parameters:
+        - name: agenceId
+          in: path
+          required: true  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+      responses:
+        '201':
+          description: Car created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Car created successfully'
+                  data:
+                    $ref: '#/components/schemas/Car'
+        '400':
+          description: Bad Request - Invalid input data
+        '500':
+          description: Internal Server Error
+
+  /car/getAllCars:
+    get:
+      summary: Get all cars
+      tags:
+        - 'Car'
+      responses:
+        '200':
+          description: Cars retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: object
+                    description: Success message
+                    example: 'Cars retrieved successfully'
+                  cars:
+                    type: array
+                    description: List of cars
+                    items:
+                      $ref: '#/components/schemas/Car'
+        '404':
+          description: No cars found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: 'No cars found'
+        '500':
+          description: Internal Server Error
+  /car/findCar/{id}:
+    get:
+      summary: Get a specific car by ID
+      tags:
+        - 'Car'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the car to be retrieved
+      responses:
+        '200':
+          description: Car retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Car retrieved successfully'
+                  data:
+                    $ref: '#/components/schemas/Car'
+        '404':
+          description: Car not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: 'Car not found'
+        '500':
+          description: Internal Server Error
+  
+  /car/updateCar/{id}:
+    put:
+      summary: Update a specific car by ID
+      tags:
+        - 'Car'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the car to be updated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+      responses:
+        '200':
+          description: Car updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Car updated successfully'
+                  data:
+                    $ref: '#/components/schemas/Car'
+        '404':
+          description: Car not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: 'Car not found'
+        '500':
+          description: Internal Server Error
+  
+  /car/deleteCar/{id}:
+    delete:
+      summary: Delete a specific car by ID
+      tags:
+        - 'Car'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the car to be deleted
+      responses:
+        '200':
+          description: Car deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Car deleted successfully'
+                  data:
+                    $ref: '#/components/schemas/Car'
+        '404':
+          description: Car not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: 'Car not found'
+        '500':
+          description: Internal Server Error
+  
+  /car/deleteAllCars:
+    delete:
+      summary: Delete all cars (use with caution)
+      tags:
+        - 'Car'
+      responses:
+        '200':
+          description: Cars deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Cars deleted successfully'
+        '500':
+          description: Internal Server Error
+  /routes/createRoute:
+    post:
+      summary: Create a new route
+      tags:
+        - 'Routes'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Route'
+      responses:
+        '201':
+          description: Route created successfully
+          schema:
+            $ref: '#/definitions/RouteResponse'
+        '400':
+          description: Bad Request - Invalid input data
+        '500':
+          description: Internal Server Error
+
+  /routes/getAllRoutes:
+    get:
+      summary: Get all routes
+      tags:
+        - 'Routes'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Routes retrieved successfully
+          schema:
+            $ref: '#/definitions/RoutesListResponse'
+        '404':
+          description: No routes found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal Server Error
+
+  /routes/findRoute/{id}:
+    get:
+      summary: Get a specific route by ID
+      tags:
+        - 'Routes'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Route retrieved successfully
+          schema:
+            $ref: '#/definitions/RouteResponse'
+        '404':
+          description: Route not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal Server Error
+
+  /routes/updateRoute/{id}:
+    patch:
+      summary: Update a specific route by ID
+      tags:
+        - 'Routes'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/Route'
+      responses:
+        '200':
+          description: Route updated successfully
+          schema:
+            $ref: '#/definitions/RouteResponse'
+        '404':
+          description: Route not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal Server Error
+
+  /routes/deleteRoute/{id}:
+    delete:
+      summary: Delete a specific route by ID
+      tags:
+        - 'Routes'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Route deleted successfully
+          schema:
+            $ref: '#/definitions/RouteResponse'
+        '404':
+          description: Route not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        '500':
+          description: Internal Server Error
+
+  /routes/deleteAllRoutes:
+    delete:
+      summary: Delete all routes (use with caution)
+      tags:
+        - 'Routes'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Routes deleted successfully
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        '500':
+          description: Internal Server Error
+  /travel-agencies/insertTravelAgency:
+    post:
+      summary: Create a new travel agency
+      tags:
+        - 'TravelAgency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TravelAgency'
+      responses:
+        '201':
+          description: Travel agency created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Travel agency created successfully'
+                  data:
+                    $ref: '#/components/schemas/TravelAgency'
+        '400':
+          description: Bad Request - Invalid input data
+        '500':
+          description: Internal Server Error
+
+  /travel-agencies/getAllTravelAgencies:
+    get:
+      summary: Get all travel agencies
+      tags:
+        - 'TravelAgency'
+      responses:
+        '200':
+          description: Travel agencies retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Travel agencies retrieved successfully'
+                  travelAgencies:
+                    type: array
+                    description: List of travel agencies
+                    items:
+                      $ref: '#/components/schemas/TravelAgency'
+        '404':
+          description: No travel agencies found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: 'No travel agencies found'
+        '500':
+          description: Internal Server Error
+
+  /travel-agencies/findTravelAgency/{id}:
+    get:
+      summary: Get a specific travel agency by ID
+      tags:
+        - 'TravelAgency'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the travel agency to be retrieved
+      responses:
+        '200':
+          description: Travel agency retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Travel agency retrieved successfully'
+                  data:
+                    $ref: '#/components/schemas/TravelAgency'
+        '404':
+          description: Travel agency not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: 'Travel agency not found'
+        '500':
+          description: Internal Server Error
+
+  /travel-agencies/updateTravelAgency/{id}:
+    put:
+      summary: Update a specific travel agency by ID
+      tags:
+        - 'TravelAgency'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the travel agency to be updated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TravelAgency'
+      responses:
+        '200':
+          description: Travel agency updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Travel agency updated successfully'
+                  data:
+                    $ref: '#/components/schemas/TravelAgency'
+        '404':
+          description: Travel agency not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: 'Travel agency not found'
+        '500':
+          description: Internal Server Error
+
+  /travel-agencies/deleteTravelAgency/{id}:
+    delete:
+      summary: Delete a specific travel agency by ID
+      tags:
+        - 'TravelAgency'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the travel agency to be deleted
+      responses:
+        '200':
+          description: Travel agency deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Travel agency deleted successfully'
+                  data:
+                    $ref: '#/components/schemas/TravelAgency'
+        '404':
+          description: Travel agency not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: 'Travel agency not found'
+        '500':
+          description: Internal Server Error
+
+  /travel-agencies/deleteAllTravelAgencies:
+    delete:
+      summary: Delete all travel agencies (use with caution)
+      tags:
+        - 'TravelAgency'
+      responses:
+        '200':
+          description: Travel agencies deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Travel agencies deleted successfully'
+        '500':
+          description: Internal Server Error
+  /journey/createJourney/{routeId}/{carId}:
+    post:
+      summary: Create a new journey
+      tags:
+        - 'Journey'
+      parameters:
+        - name: routeId
+          in: path
+          required: true
+          description: ID of the route to be in this journey  
+        - name: carId
+          in: path
+          required: true
+          description: ID of the  car to be used in this journey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Journey'
+      responses:
+        '201':
+          description: Journey created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Journey created successfully'
+                  data:
+                    $ref: '#/components/schemas/Journey'
+        '500':
+          description: Internal Server Error
+
+  /journey/getAllJourneys:
+    get:
+      summary: Get all journeys
+      tags:
+        - 'Journey'
+      responses:
+        '200':
+          description: List of journeys retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Journeys retrieved successfully'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Journey'
+        '500':
+          description: Internal Server Error
+
+  /journey/findJourney/{id}:
+    get:
+      summary: Get a specific journey by ID
+      tags:
+        - 'Journey'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the journey to be retrieved
+      responses:
+        '200':
+          description: Journey retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Journey retrieved successfully'
+                  data:
+                    $ref: '#/components/schemas/Journey'
+        '404':
+          description: Journey not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: 'Journey not found'
+        '500':
+          description: Internal Server Error
+
+  /journey/updateJourney/{id}:
+    patch:
+      summary: Update a specific journey by ID
+      tags:
+        - 'Journey'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the journey to be updated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Journey'
+      responses:
+        '200':
+          description: Journey updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Journey updated successfully'
+                  data:
+                    $ref: '#/components/schemas/Journey'
+        '404':
+          description: Journey not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: 'Journey not found'
+        '500':
+          description: Internal Server Error
+
+  /journey/deleteJourney/{id}:
+    delete:
+      summary: Delete a specific journey by ID
+      tags:
+        - 'Journey'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the journey to be deleted
+      responses:
+        '200':
+          description: Journey deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'Journey deleted successfully'
+        '404':
+          description: Journey not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: 'Journey not found'
+        '500':
+          description: Internal Server Error
+
+  /journey/deleteAllJourneys:
+    delete:
+      summary: Delete all journeys (use with caution)
+      tags:
+        - 'Journey'
+      responses:
+        '200':
+          description: All journeys deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                    example: 'All journeys deleted successfully'
+        '500':
+          description: Internal Server Error
+
