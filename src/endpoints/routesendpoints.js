@@ -6,6 +6,7 @@ import {
   findRoute,
   deleteRoute,
   deleteAllRoutes,
+  partialSearchRoutes
 } from "../controllers/index.js";
 
 const RouteRouter = express.Router();
@@ -13,7 +14,7 @@ const RouteRouter = express.Router();
 // Create a new route
 RouteRouter.post("/createRoute", insertRoute);
 
-// Get all routes
+RouteRouter.get("/search/:query",partialSearchRoutes)
 RouteRouter.get("/getAllRoutes", getAllRoutes);
 
 // Get a specific route by ID

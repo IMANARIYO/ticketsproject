@@ -31,8 +31,7 @@ const journeySchema = new mongoose.Schema({
     required: true,
     default: Date.now,
   },
-  
-  
+
   remainingseats: {
     type: Number,
     default: 0,
@@ -56,7 +55,6 @@ const journeySchema = new mongoose.Schema({
         {
           customerID: {
             type: String,
-            // ref: 'Customer', // Assuming your Customer model is named 'Customer'
             required: false,
           },
           customerName: {
@@ -73,8 +71,6 @@ const journeySchema = new mongoose.Schema({
     },
   ],
 });
-
-// Define a pre-save middleware to set journeyID and agenceId
 journeySchema.pre('save', function (next) {
   this.JourneyId = this._id;
   next();

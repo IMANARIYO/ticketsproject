@@ -62,6 +62,8 @@ const ticketSchema = new mongoose.Schema({
     type: Date,
     default: Date.now, // Default ticket cut time
   },
+}, {
+  timestamps: { currentTime: () => new Date() }, // Use local time zone
 });
 
 

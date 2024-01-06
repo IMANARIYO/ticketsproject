@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import { datew } from "../utils/datefunctin.js";
 const usersSchema = new mongoose.Schema({
     userId:{type: mongoose.Schema.Types.ObjectId},
     fullNames: {
@@ -31,11 +31,26 @@ const usersSchema = new mongoose.Schema({
         required: false
     },
     token:{type:String,
-    }
-});
+    },
+    verified:{type:Boolean,
+    default:false   },
+    
+}, {
+    timestamps: { currentTime: () => new Date() }, 
+  }
+
+);
 usersSchema.pre('save', function (next) {
     this.userId=this._id;
+    const now = new Date();
+    
     next();
   });
  export const userconst = mongoose.model('users', usersSchema);
 
+//  if (user) {
+    //   return res.status(409).json({ message: "Email is already in use."
+    
+    //   });
+    //  }
+ 

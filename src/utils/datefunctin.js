@@ -12,5 +12,5 @@ const options = {
   hour12: false, // Use 24-hour format
   timeZoneName: "short"
 };
-export const  datew= date   
+export const  datew=date
  export const formattedDate = date.toLocaleString("en-US", options);

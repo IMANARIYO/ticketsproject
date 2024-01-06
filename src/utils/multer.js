@@ -25,7 +25,7 @@ const upload = multer({ storage: storage });
 
 export const uploaded = upload.fields([
   { name: "businessIdeaFile", maxCount: 1 },
-  { name: "mainImage", maxCount: 1 },
+  { name: "picture", maxCount: 1 },
   { name: "innovationDescription", maxCount: 1 },
   { name: "certificateOfRecentlyEducationLevel", maxCount: 1 },
   { name: "images", maxCount: 20 },

@@ -132,7 +132,13 @@ export const htmlMessageApproved = `
 </html>
 `;
 
-export const signupHtmlMessage= `
+// Function to generate the verification link
+// const generateVerificationLink = (token) => {
+//   return `http://your-verification-link?token=${token}`;
+// };
+
+// Updated signup template with a button
+export const signupHtmlMessage = (verificationToken) => `
 <html>
   <head>
     <style>
@@ -149,15 +155,30 @@ export const signupHtmlMessage= `
         font-size: 16px;
         line-height: 1.5;
       }
+      .button-container {
+        margin-top: 20px;
+      }
+      .verification-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #cc0000;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 5px;
+      }
     </style>
-    <title>signup goes well</title>
+    <title>Signup Successful</title>
   </head>
   <body>
-    <h1> succeful registration on fab lab</h1>
-    <p>registaraton message.</p>
+    <h1>Successful registration on fab lab</h1>
+    <p>Thank you for registering! To complete your registration, please verify your email by clicking the button below:</p>
+    <div class="button-container">
+      <a class="verification-button" href="${verificationToken}">Verify Email</a>
+    </div>
   </body>
 </html>
 `;
+
 
 export const htmlMessageWaitingList = `
 <html>

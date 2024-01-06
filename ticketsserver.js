@@ -4,6 +4,7 @@ import { datew } from "./src/utils/datefunctin.js";
 import yaml from "yamljs";
 import twilio from "twilio";
 import cors from "cors";
+import cron from "node-cron";
 import fs from 'fs';
 import express from "express";
 import bodyParser from "body-parser";
@@ -48,3 +49,35 @@ app.listen(process.env.PORT, () => {
   console.log(`Server is running on the port http://localhost:${process.env.PORT}`);
   console.log("the current date ------------------",datew)
 });
+
+
+console.log(cron)
+
+// cron.schedule('* * * * *', function() {
+//   console.log('Cron job running every minutee');
+// });
+
+// cron.schedule('*/6 * * * *', function() {
+//   console.log('Cron job running every 6 minutes');
+// });
+
+
+// let counter = 0;
+// const maxExecutions = 5; // Set your desired number of executions
+
+// function runCronJob() {
+//   counter++;
+//   console.log(`Cron job running (Execution ${counter})`);
+
+//   if (counter === maxExecutions) {
+//     console.log('Reached the maximum number of executions. Stopping cron job.');
+//   } else {
+//     setTimeout(runCronJob, 1000); // Run again after 1 second (adjust as needed)
+//   }
+// }
+
+// runCronJob();
+
+// cron.schedule("* * * * * *",function(){
+//   console.log("cron job being run ")
+// })

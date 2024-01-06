@@ -29,6 +29,8 @@ Journeys:[{
   cars:[{type:mongoose.Schema.Types.ObjectId,
     ref:'Car',
   required:false}],
+}, {
+  timestamps: { currentTime: () => new Date() },
 });
 travelAgencySchema.pre('save', function (next) {
   this.TravelAgencyId=this._id;
