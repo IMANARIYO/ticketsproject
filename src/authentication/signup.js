@@ -4,14 +4,14 @@ import { userconst } from "../models/usersModel.js";
 import { sendEmail } from "../utils/index.js";
 import { signupHtmlMessage } from "../utils/index.js";
 import nodemailer from"nodemailer"
-
+import cron from "node-cron";
 import { generateOTP } from "../utils/index.js";
 import { catchAsync } from "../middlewares/globaleerorshandling.js";
-import cron from "node-cron";
+
 
 
 const scheduleUserDeletion = (userId, signupTime) => {
-  const deletionTime = new Date(signupTime.getTime() +  6 * 60 * 1000); // 6 minutes later
+  const deletionTime = new Date(signupTime.getTime() +  3 * 60 * 1000); // 6 minutes later
 
   console.log("the deletion time is ---------",deletionTime)
   const cronExpression = `${deletionTime.getMinutes()} ${deletionTime.getHours()} * * *`;
@@ -37,11 +37,11 @@ console.log("the user to delete--------",user)
 export const signup = catchAsync(async (req, res, next) => {
 
   let user = await userconst.findOne({ email: req.body.email });
-   if (user) {
-      return res.status(409).json({ message: "Email is already in use."
+  //  if (user) {
+  //     return res.status(409).json({ message: "Email is already in use."
     
-      });
-     }
+  //     });
+  //    }
 
   let hashedPassword = await passHashing(req.body.password);
   let newUserDetails = { ...req.body, password: hashedPassword };
@@ -53,7 +53,7 @@ export const signup = catchAsync(async (req, res, next) => {
   // Add signup time to user details
   newUserDetails.otp = verificationToken;
   newUserDetails.otpExpiresAt = otpExpiresAt;
-  const verificationLink = `http://localhost:9900/auth/verify-email?token=${verificationToken}`;
+  const verificationLink = `https://routeeasyapi.onrender.com/auth/verify-email?token=${verificationToken}`;
 
   let newUser = await userconst.create(newUserDetails);
 

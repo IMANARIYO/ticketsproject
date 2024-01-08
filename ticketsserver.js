@@ -53,9 +53,9 @@ app.listen(process.env.PORT, () => {
 
 console.log(cron)
 
-// cron.schedule('* * * * *', function() {
-//   console.log('Cron job running every minutee');
-// });
+cron.schedule('* * * * *', function() {
+  console.log('Cron job running every minutee');
+});
 
 // cron.schedule('*/6 * * * *', function() {
 //   console.log('Cron job running every 6 minutes');

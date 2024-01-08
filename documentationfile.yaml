@@ -10,7 +10,7 @@ info:
     email: "imanariyo@gmail.com"
     url: "tel:0787795163"
 servers:
-  - url: https://routeeasyapi.onrender.com
+  - url:  https://routeeasyapi.onrender.com
 components:
   securitySchemes:
     bearerAuth:

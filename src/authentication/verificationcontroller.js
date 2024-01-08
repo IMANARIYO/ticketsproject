@@ -12,9 +12,10 @@ export const verifyEmail = catchAsync(async (req, res, next) => {
   if (!token) {
     return res.status(400).json({ message: "Token is required for email verification." });
   }
-  const user = await userconst.findOne({ otp: token });
+  const user = await userconst.findOne({ otp:token });
   if (!user) {
-    return res.status(404).json({ message: "Invalid token. User not found." });
+    return res.status(404).json({ message: "Invalid token. User not found. for contoller" });
+    console.log("token was",token);
   }
   const receivedOTP = token;
   const storedOTP = user.otp;
