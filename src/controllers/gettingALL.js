@@ -17,7 +17,7 @@ const getAllDynamic = model => {
         data: allDocs,
       });
     } catch (error) {
-      next(error); // Pass the error to the global error handling middleware
+      next(error); 
     }
   };
 };

@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
-
-
 const travelAgencySchema = new mongoose.Schema({
   TravelAgencyId:{type: mongoose.Schema.Types.ObjectId,
   required:false},
-  agencyName: { type: mongoose.Schema.Types.ObjectId,
+  travelAgenceName: { 
     type: String,
     required: true,
   },
@@ -31,6 +29,8 @@ Journeys:[{
   required:false}],
 }, {
   timestamps: { currentTime: () => new Date() },
+},{
+  timestamps: { createdAt: 'createdDate', updatedAt: 'updatedDate' },
 });
 travelAgencySchema.pre('save', function (next) {
   this.TravelAgencyId=this._id;

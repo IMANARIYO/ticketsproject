@@ -50,34 +50,20 @@ app.listen(process.env.PORT, () => {
   console.log("the current date ------------------",datew)
 });
 
+function moveElements(array1, array2, numToMove) {
+  // Ensure numToMove is within bounds
+  numToMove = Math.min(numToMove, array1.length);
 
-console.log(cron)
+  // Remove elements from array1 and add them to array2
+  array2.push(...array1.splice(0, numToMove));
+}
 
-cron.schedule('* * * * *', function() {
-  console.log('Cron job running every minutee');
-});
+// Example usage:
+const array1 = [1, 2, 3, 4, 5];
+const array2 = [];
+const numToMove = 3;
 
-// cron.schedule('*/6 * * * *', function() {
-//   console.log('Cron job running every 6 minutes');
-// });
+moveElements(array1, array2, numToMove);
 
-
-// let counter = 0;
-// const maxExecutions = 5; // Set your desired number of executions
-
-// function runCronJob() {
-//   counter++;
-//   console.log(`Cron job running (Execution ${counter})`);
-
-//   if (counter === maxExecutions) {
-//     console.log('Reached the maximum number of executions. Stopping cron job.');
-//   } else {
-//     setTimeout(runCronJob, 1000); // Run again after 1 second (adjust as needed)
-//   }
-// }
-
-// runCronJob();
-
-// cron.schedule("* * * * * *",function(){
-//   console.log("cron job being run ")
-// })
+console.log("array1",array1[0]); // Output: [4, 5]
+console.log("array2",array2[0]); // Output: [1, 2, 3]

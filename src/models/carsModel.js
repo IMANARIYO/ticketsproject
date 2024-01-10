@@ -7,7 +7,10 @@ const carSchema = new mongoose.Schema({
   TravelAgencyId:{type: mongoose.Schema.Types.ObjectId,
     ref:'TravelAgency',
     required:false},
-    agenceName:{type:String},
+    travelAgencyName:{type:String},
+  JourneyId:{type: mongoose.Schema.Types.ObjectId,
+      ref:'Journey',
+      required:false},
   model: {
     type: String,
     required: true,
@@ -20,15 +23,10 @@ const carSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  availableSeats: {
-    type: Number,
-    required: true,
-  },
-  remaingSeats: {
-    type: Number,
-    default:0,
-    required:false
-  },
+ equipedseats:{
+  type:Number
+ },
+ 
   driverName: {
     type: String,
     required: true,
@@ -37,12 +35,6 @@ const carSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
- 
-  ticketsbooked: [{
-   type:Object,
-    required:false
-  }],
-  
   status:{
     type:String,
     default:"available",
@@ -52,7 +44,7 @@ const carSchema = new mongoose.Schema({
   type:String,
   default:"after 30 minutes"
  },
- currentlyBookedfor:{
+ injourney:{
   type:String,
   default:"none"
  }

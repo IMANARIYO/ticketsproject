@@ -25,6 +25,9 @@ const driverSchema = new mongoose.Schema({
       ref:'Journey'
     },
   ],
+},
+{
+  timestamps: { createdAt: 'createdDate', updatedAt: 'updatedDate' },
 });
 
 driverSchema.pre('save', function (next) {

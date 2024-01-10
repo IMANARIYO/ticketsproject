@@ -13,7 +13,7 @@ import { catchAsync } from "../middlewares/globaleerorshandling.js";
 const scheduleUserDeletion = (userId, signupTime) => {
   const deletionTime = new Date(signupTime.getTime() +  3 * 60 * 1000); // 6 minutes later
 
-  console.log("the deletion time is ---------",deletionTime)
+  
   const cronExpression = `${deletionTime.getMinutes()} ${deletionTime.getHours()} * * *`;
   
   cron.schedule(cronExpression, async () => {
@@ -49,12 +49,9 @@ export const signup = catchAsync(async (req, res, next) => {
   const otpDetails = generateOTP();
   const verificationToken = otpDetails.code;
   const otpExpiresAt = otpDetails.expiresAt;
-
-  // Add signup time to user details
   newUserDetails.otp = verificationToken;
   newUserDetails.otpExpiresAt = otpExpiresAt;
   const verificationLink = `https://routeeasyapi.onrender.com/auth/verify-email?token=${verificationToken}`;
-
   let newUser = await userconst.create(newUserDetails);
 
   await sendEmail(newUser.email, "signup", "Thank you for registering with us!", signupHtmlMessage(verificationLink));

@@ -3,10 +3,9 @@ import mongoose from "mongoose";
 const routeSchema = new mongoose.Schema({
   RouteID: {
     type: mongoose.Schema.Types.ObjectId,
-   
-    
   },
- routeName:{type:String},
+ routeName:{type:String,
+required:false},
   departureCity: {
     type: String,
     required: true,
@@ -19,7 +18,6 @@ const routeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-
   duration: {
     type: Number,
     required: true,
@@ -28,17 +26,6 @@ const routeSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  
-  tickets: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Ticket', // Assuming your Ticket model is named 'Ticket'
-    required:false
-  }],
-  cars:[{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Car',
-    required:false
-  }],
   travelagencies: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -46,6 +33,8 @@ const routeSchema = new mongoose.Schema({
       required:false
     }
   ],
+},{
+  timestamps: { createdAt: 'createdDate', updatedAt: 'updatedDate' },
 });
 routeSchema.pre('save', function (next) {
   this.RouteID = this._id;
