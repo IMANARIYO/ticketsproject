@@ -19,8 +19,7 @@ const usersSchema = new mongoose.Schema({
     sex:{type:String},
     role: {
         type: String,
-        required: true
-
+        required:false
     },
     otpExpiresAt: {
         type: String,

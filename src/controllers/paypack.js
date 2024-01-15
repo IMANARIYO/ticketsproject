@@ -12,9 +12,8 @@ const paypack = new PaypackJs({ client_id: "cbe3c656-7d70-11ee-a21f-deaddb65b9c2
    export const cashingin=(req,res)=>
    {
     paypack.cashin({
-    number:"0787795163",
-    // amount: req.body.amount,
-    amount:100,
+    number:"0787795163", 
+    amount:150,
     environment: "development",
   })
   .then((response) => { 
@@ -40,13 +39,13 @@ const paypack = new PaypackJs({ client_id: "cbe3c656-7d70-11ee-a21f-deaddb65b9c2
         console.log( err);
       });
   }; 
-  paypack.transactions({ offset: 0, limit: 100 })
-  .then((res) => {
-    console.log(res.data);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+  // paypack.transactions({ offset: 0, limit: 100 })
+  // .then((res) => {
+  //   console.log(res.data);
+  // })
+  // .catch((err) => {
+  //   console.log(err);
+  // });
       
 export const events = () => {  
     paypack
