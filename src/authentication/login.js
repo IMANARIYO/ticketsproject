@@ -25,7 +25,7 @@ res.status(200).json({
       }
 }
 else if (!user) {
-       return res.status(404).json({ mesage: "user not found" });
+       return res.status(404).json({ message: "user not found" });
      }
 
 }catch(err){

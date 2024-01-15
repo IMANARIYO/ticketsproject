@@ -10,7 +10,7 @@ const buyTickets = catchAsync(async (req, res, next) => {
       .populate('carId')
       .populate('TravelAgencyId')
       .populate('RouteId');
-
+     
     if (!journey) {
       return res.status(404).json({
         message: `No Journey found for id ${journeyId}`,

@@ -170,7 +170,7 @@ export const signupHtmlMessage = (verificationToken) => `
     <title>Signup Successful</title>
   </head>
   <body>
-    <h1>Successful registration on fab lab</h1>
+    <h1>Successful registration on Route Easy </h1>
     <p>Thank you for registering! To complete your registration, please verify your email by clicking the button below:</p>
     <div class="button-container">
       <a class="verification-button" href="${verificationToken}">Verify Email</a>

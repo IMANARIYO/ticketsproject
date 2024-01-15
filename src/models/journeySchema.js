@@ -11,6 +11,11 @@ const journeySchema = new mongoose.Schema({
     ref: "Car",
     required: true
   },
+  directionId:{
+    type: mongoose.Types.ObjectId,
+    ref: "direction",
+    required: true
+  },
   RouteId: {
     type: mongoose.Types.ObjectId,
     ref: "Route",

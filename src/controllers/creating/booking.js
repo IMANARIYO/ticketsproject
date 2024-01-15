@@ -18,6 +18,11 @@ const createDynamic = (model) => {
         });
       }
       let directiondata=await direction.findOne({ departureCity, destinationCity,TravelAgencyId});
+      if (!directiondata) {
+        return res.status(404).json({
+          message: `No direction found for departure city: ${departureCity} and destination city: ${destinationCity} in this travel agency called "${travelAgencedata.travelAgenceName}"`,
+        });
+      }
       newObject.directionId=directiondata._id
       let routedata= await Route.findById(directiondata.RouteId)
       if (!directiondata) {

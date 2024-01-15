@@ -1,10 +1,52 @@
-import { Route, TravelAgency, Car, Ticket,Journey } from "../models/index.js";
+// import { Route, TravelAgency, Car, Ticket,Journey } from "../models/index.js";
+// import { catchAsync } from "../middlewares/globaleerorshandling.js";
+
+// const getAllDynamic = model => {
+//   return async (req, res, next) => {
+//     try {
+//       const allDocs = await model.find();
+
+//       if (allDocs.length === 0) {
+//         return res.status(404).json({
+//           message: `No documents found in ${model.modelName} collection.`,
+//         });
+//       }
+//       if(model== Journey){
+
+//       }
+
+//       res.status(200).json({
+//         message: `All documents in ${model.modelName} collection retrieved successfully.`,
+//         data: allDocs,
+//       });
+//     } catch (error) {
+//       next(error); 
+//     }
+//   };
+// };
+
+
+// const getAllRoutes = catchAsync(getAllDynamic(Route));
+// const getAllTravelAgencies = catchAsync(getAllDynamic(TravelAgency));
+// const getAllCars = catchAsync(getAllDynamic(Car));
+// const getAllTickets = catchAsync(getAllDynamic(Ticket));
+// const getAllJourneys = catchAsync(getAllDynamic(Journey));
+// export { getAllRoutes, getAllTravelAgencies, getAllCars, getAllTickets ,getAllJourneys};
+
+
+import { Route, TravelAgency, Car, Ticket, Journey } from "../models/index.js";
 import { catchAsync } from "../middlewares/globaleerorshandling.js";
 
-const getAllDynamic = model => {
+const getAllDynamic = (model, populateOptions) => {
   return async (req, res, next) => {
     try {
-      const allDocs = await model.find();
+      let query = model.find();
+
+      if (populateOptions) {
+        query = query.populate(populateOptions);
+      }
+
+      const allDocs = await query.exec();
 
       if (allDocs.length === 0) {
         return res.status(404).json({
@@ -17,15 +59,24 @@ const getAllDynamic = model => {
         data: allDocs,
       });
     } catch (error) {
-      next(error); 
+      next(error);
     }
   };
 };
-
 
 const getAllRoutes = catchAsync(getAllDynamic(Route));
 const getAllTravelAgencies = catchAsync(getAllDynamic(TravelAgency));
 const getAllCars = catchAsync(getAllDynamic(Car));
 const getAllTickets = catchAsync(getAllDynamic(Ticket));
-const getAllJourneys = catchAsync(getAllDynamic(Journey));
-export { getAllRoutes, getAllTravelAgencies, getAllCars, getAllTickets ,getAllJourneys};
+
+// Use the getAllDynamic function with the Journey model and populate options
+const journeyPopulateOptions = [
+  { path: 'TravelAgencyId' },
+  { path: 'carId' },
+  { path: 'RouteId' },
+  { path: 'pendingtickets' },
+  // Add other paths you want to populate
+];
+const getAllJourneys = catchAsync(getAllDynamic(Journey, journeyPopulateOptions));
+
+export { getAllRoutes, getAllTravelAgencies, getAllCars, getAllTickets, getAllJourneys };
