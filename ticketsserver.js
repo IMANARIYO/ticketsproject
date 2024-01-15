@@ -67,3 +67,23 @@ moveElements(array1, array2, numToMove);
 
 console.log("array1",array1[0]); // Output: [4, 5]
 console.log("array2",array2[0]); // Output: [1, 2, 3]
+
+let currentDate = new Date(Date.now());
+
+let currentYear = currentDate.getFullYear();
+let currentMonth = currentDate.getMonth() + 1; // Month is zero-based, so add 1
+let currentDay = currentDate.getDate();
+let currentHour = currentDate.getHours();
+let currentMinute = currentDate.getMinutes();
+let currentSecond = currentDate.getSeconds();
+
+console.log("Current Date:", currentYear + "-" + currentMonth + "-" + currentDay);
+let  thedate=Date.parse('currentYear + "-" + currentMonth + "-" + currentDay')
+// console.log("the date in number",thedate)
+console.log("Current Time:", currentHour+"T"+currentMinute+"T"+currentSecond);
+let date="2024-01-09";
+let time="09:10";
+let result=Date.parse(date+"T"+time )
+let result1=Date.parse(date )
+
+console.log("resulted date+++++---------------",result,result1)

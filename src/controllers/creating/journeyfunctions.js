@@ -73,7 +73,7 @@ function moveElements(array1, array2, numToMove) {
 // console.log(Date.now()) 
 // })
 
-let currentDate = new Date(Date.now());
+
 
 // Retrieve individual components
 let currentYear = currentDate.getFullYear();

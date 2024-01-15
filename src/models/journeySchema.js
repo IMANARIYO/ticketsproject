@@ -9,7 +9,7 @@ const journeySchema = new mongoose.Schema({
   carId: {
     type: mongoose.Types.ObjectId,
     ref: "Car",
-    required: false
+    required: true
   },
   RouteId: {
     type: mongoose.Types.ObjectId,
@@ -33,15 +33,17 @@ const journeySchema = new mongoose.Schema({
     default: "agenceoftetsting",
   },
   departureDate: {
-    type: Date,
-    required: true,
-    default: Date.now,
+    type: String,
+    required: true
   },
- 
+  pendingtickets:[{
+    type: mongoose.Types.ObjectId,
+    ref: "Ticket",
+    required: false
+  }],
   departureTime: {
-    type: Date,
-    required: true,
-    default: Date.now,
+    type: String,
+    required: true
   },
   plannedSeats: {
     type: Number,
@@ -53,7 +55,7 @@ const journeySchema = new mongoose.Schema({
   }, 
   payedticketsbooked:[{
     type: mongoose.Types.ObjectId,
-    ref: 'Ticket',
+    ref: ['Ticket','Booking'],
     required: false
   }],
   payedSeats: {
@@ -69,8 +71,8 @@ const journeySchema = new mongoose.Schema({
     default: 0,
   },
   estimatedArrivalTime: {
-    type: Date,
-    required: false,
+    type: String,
+    required: false
   },
   ticketsbooked: [{
     type: mongoose.Types.ObjectId,

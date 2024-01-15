@@ -32,30 +32,29 @@ const directionSchema = new mongoose.Schema({
   }],
   ticketsbooked: [{
     type: mongoose.Types.ObjectId,
-    ref: 'Ticket',
+    ref: 'Booking',
     required: false
   }],
   payedticketsbooked:[{
     type: mongoose.Types.ObjectId,
-    ref: 'Ticket',
+    ref: 'Booking',
     required: false
   }],
-  bookedDate: {
-    type: Date,
+  nonpayedbookedtickets:[{
+    type: mongoose.Types.ObjectId,
+    ref: 'Booking',
+    required: false
+  }],
+  bookedDate:[ {
+    type: String,
     required: false,
-  },
-  bookedTime: {
-    type: Date, 
+  }],
+  bookedTime: [{
+    type: String, 
     required: false,
-  },
-  payedbookedtickets: {
-    type: Number,
-    default: 0,
-  },
-  nonpayedbookedtickets: {
-    type: Number,
-    default: 0,
-  },
+  }],
+  
+ 
   periodic:{
     type:Number,
     required:true
@@ -69,7 +68,29 @@ const directionSchema = new mongoose.Schema({
   timestamps: { createdAt: 'createdDate', updatedAt: 'updatedDate' },
 });
 
+const removeDuplicates = (array) => [...new Set(array)];
+
+// Pre-save hook to remove duplicates from bookedDate and bookedTime
 directionSchema.pre('save', function (next) {
+
+  this.bookedDate = removeDuplicates(this.bookedDate);
+  this.bookedTime = removeDuplicates(this.bookedTime);
+const today = new Date().toISOString().split('T')[0];
+console.log("date to day we are using",today)
+this.bookedDate = this.bookedDate.filter(date => {
+  console.log("to showup_____________________________________________-")
+  const shouldInclude = date >= today;
+  if (!shouldInclude) {
+    console.log(`Filtering out date: ${date}`);
+  }
+  if (!shouldInclude) {
+    console.log(`Filtering in date: ${date}`);
+  }
+
+  return shouldInclude;
+});
+
+  // Assign a unique ID for the direction
   this.directionId = this._id;
   next();
 });

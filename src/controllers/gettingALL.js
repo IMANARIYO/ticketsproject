@@ -22,6 +22,7 @@ const getAllDynamic = model => {
   };
 };
 
+
 const getAllRoutes = catchAsync(getAllDynamic(Route));
 const getAllTravelAgencies = catchAsync(getAllDynamic(TravelAgency));
 const getAllCars = catchAsync(getAllDynamic(Car));

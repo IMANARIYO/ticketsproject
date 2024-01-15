@@ -6,6 +6,9 @@ const bookingSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       auto: true,
     },
+    directionId:{type: mongoose.Schema.Types.ObjectId,
+      ref: 'direction',
+      required: false},
     departureCity: {
       type: String,
       required: false,
@@ -19,17 +22,21 @@ const bookingSchema = new mongoose.Schema(
       ref: 'users',
       required: false,
     },
-    travelAgencyId: {
+    TravelAgencyId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'TravelAgency',
       required: false,
     },
+    price:{
+      type:Number,
+      required:false
+    },
     bookingDate: {
-      type: Date,
+      type: String,
       required: false,
     },
     bookingTime: {
-      type: Date, // Assuming a Date object for simplicity, you can adjust this based on your needs
+      type: String, // Assuming a Date object for simplicity, you can adjust this based on your needs
       required: false,
     },
     bookedCar: {
@@ -44,11 +51,13 @@ const bookingSchema = new mongoose.Schema(
       required: false,
     },
     waitingDate: {
-      type: Date,
+      type:Boolean,
+      default:false,
       required: false,
     },
     waitingTime: {
-      type: Date,
+      type:Boolean,
+      default:false,
       required: false,
     },
     done: {
@@ -57,9 +66,9 @@ const bookingSchema = new mongoose.Schema(
       required: false,
     },
     paymentStatus: {
-      type: String,
-      enum: ['paid', 'notPaid'],
-      default: 'notPaid',
+      type: Boolean,
+      enum: ['true', 'false'],
+      default: false,
       required: false,
     },
     paymentInformation: {

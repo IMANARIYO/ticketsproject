@@ -5,8 +5,11 @@ const ticketSchema = new mongoose.Schema(
     directionId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'direction',
-      default: new mongoose.Types.ObjectId,
       required: true,
+    },
+    journeyId:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref:'Journey',
     },
     TicketId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -32,8 +35,12 @@ const ticketSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    departureDateTime: {
-      type: Date,
+    departureDate: {
+      type: String,
+      required: true,
+    },
+    departureTime: {
+      type: String,
       required: true,
     },
     price: {
@@ -42,11 +49,11 @@ const ticketSchema = new mongoose.Schema(
     },
     seat_on_number: {
       type: Number,
-      required: true,
+      required: false,
     },
     status: {
       type: String,
-      enum: ['booked', 'pending', 'paid', 'notPaid'],
+      enum: ['pending', 'paid', 'notPaid'],
       default: 'pending',
       required: true,
     },
