@@ -77,13 +77,13 @@ let currentHour = currentDate.getHours();
 let currentMinute = currentDate.getMinutes();
 let currentSecond = currentDate.getSeconds();
 
-console.log("Current Date:", currentYear + "-" + currentMonth + "-" + currentDay);
-let  thedate=Date.parse('currentYear + "-" + currentMonth + "-" + currentDay')
+// console.log("Current Date:", currentYear + "-" + currentMonth + "-" + currentDay);
+// let  thedate=Date.parse('currentYear + "-" + currentMonth + "-" + currentDay')
 // console.log("the date in number",thedate)
-console.log("Current Time:", currentHour+"T"+currentMinute+"T"+currentSecond);
-let date="2024-01-09";
-let time="09:10";
-let result=Date.parse(date+"T"+time )
-let result1=Date.parse(date )
+// console.log("Current Time:", currentHour+"T"+currentMinute+"T"+currentSecond);
+// let date="2024-01-09";
+// let time="09:10";
+// let result=Date.parse(date+"T"+time )
+// let result1=Date.parse(date )
 
-console.log("resulted date+++++---------------",result,result1)
+// console.log("resulted date+++++---------------",result,result1)

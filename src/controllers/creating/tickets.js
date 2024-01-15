@@ -17,7 +17,6 @@ const buyTickets = catchAsync(async (req, res, next) => {
       });
     }
 
-    // Extract relevant information from Journey
     const {
       carId,
       TravelAgencyId,
