@@ -8,7 +8,7 @@ authRouter.get("/verify-email", verifyEmail);
 authRouter.post("/login",login)
 authRouter.post("/forget",generateAndSendOTP)
 authRouter.post("/reset",verifyOTPAndUpdatePassword)
-//authRouter.use(verifyingtoken)
+authRouter.use(verifyingtoken)
 authRouter.post("/change",changepassword)
 authRouter.get("/getAllusers",getAllUsers)
 authRouter.delete("/deleteUserById/:id",deleteUserById)

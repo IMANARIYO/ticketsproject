@@ -1,6 +1,6 @@
 export const checking=(req,res)=>{
   let data=  req.body
-  console.log("message1",data)
+  console.log("message1",data) 
 let desision=data    ;
 return res.status(200).json({data:data,
 "desision":desision})
