@@ -11,6 +11,19 @@ const getAllDynamic = (model, populateOptions) => {
         query = query.populate(populateOptions);
       }
 
+      if (model === Journey) {
+        const currentDate = new Date().toISOString().split('T')[0]; // Get current date in 'YYYY-MM-DD' format
+        const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false }); // Get current time in 'HH:mm' format
+
+        query = model.find({
+          departureDate: { $eq: currentDate },
+          $or: [
+            { departureTime: { $gte: currentTime } }, // Departure time greater than or equal to current time
+            { departureDate: { $gt: currentDate } }    // If departure date is greater than today, include it
+          ]
+        });
+      }
+
       const allDocs = await query.exec();
 
       if (allDocs.length === 0) {

@@ -6,7 +6,8 @@ const findDocumentByCities = (model) => catchAsync(async (req, res, next) => {
 
   const result = await model.findOne({ departureCity, destinationCity });
   if(model == Journey ){
-    const result = await model.find({ departureCity, destinationCity }); 
+    const result = await model.find({ departureCity, destinationCity });
+    
   }
 
   if (!result) {
