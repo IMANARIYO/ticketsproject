@@ -6,9 +6,9 @@ import {
   deleteTravelAgency,
   getTravelAgencyById,createTravelAgency
 } from "../controllers/index.js";
-
+import { uploaded } from "../utils/multer.js";
 const TravelAgencyRouter = express.Router();
-TravelAgencyRouter.post("/insertTravelAgency", createTravelAgency);
+TravelAgencyRouter.post("/insertTravelAgency",uploaded, createTravelAgency);
 TravelAgencyRouter.get("/getAllTravelAgencies", getAllTravelAgencies);
 TravelAgencyRouter.get("/findTravelAgency/:id", getTravelAgencyById);
 TravelAgencyRouter.put("/updateTravelAgency/:id", updateTravelAgency);

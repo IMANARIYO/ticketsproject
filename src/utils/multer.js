@@ -28,7 +28,7 @@ export const uploaded = upload.fields([
   { name: "picture", maxCount: 1 },
   { name: "innovationDescription", maxCount: 1 },
   { name: "certificateOfRecentlyEducationLevel", maxCount: 1 },
-  { name: "images", maxCount: 20 },
+  { name: "image", maxCount: 1 },
   { name: "portfolioImages", maxCount: 20 },
 ]);
 

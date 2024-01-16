@@ -1,11 +1,27 @@
 import { TravelAgency,Car,Route } from "../../models/index.js";
 import { findTravelAgencyy } from "./passingid.js";
 import { catchAsync } from "../../middlewares/globaleerorshandling.js";
+import dotenv from "dotenv";
+dotenv.config();
+import { v2 as cloudinary } from "cloudinary";
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET,
+});
+
 const createDynamic = (model) => {
   return (async (req, res, next) => {
- 
-
+    
       let newObject={...req.body}
+      if (req.files && req.files.image) {
+        console.log("----------------mainImage----- tackulating");
+        newObject.mainImage = (await cloudinary.uploader.upload(
+          req.files.image[0].path
+        )).secure_url;
+      }
+   
+  
 
 if(model== Car){
   let travelAgencyId=req.body.TravelAgencyId

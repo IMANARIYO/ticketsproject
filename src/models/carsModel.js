@@ -11,6 +11,10 @@ const carSchema = new mongoose.Schema({
   JourneyId:{type: mongoose.Schema.Types.ObjectId,
       ref:'Journey',
       required:false},
+      image:{
+        type: String,
+default:"https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.scania.com%2Fcontent%2Fdam%2Fgroup%2Fproducts-and-services%2Fbuses-and-coaches%2Fscania-buses-and-coaches-mobile-21080-006.jpg&tbnid=p1jzA6IN8WcGMM&vet=12ahUKEwiL-8GFyOGDAxU5mycCHRxxBtwQMyglegUIARDBAQ..i&imgrefurl=https%3A%2F%2Fwww.scania.com%2Fgroup%2Fen%2Fhome%2Fproducts-and-services%2Fbuses-and-coaches.html&docid=49WRzvvNDR-FyM&w=1434&h=1433&q=bus&ved=2ahUKEwiL-8GFyOGDAxU5mycCHRxxBtwQMyglegUIARDBAQ"
+      },
   model: {
     type: String,
     required: true,
