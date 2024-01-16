@@ -1,5 +1,5 @@
 
-import { Route, TravelAgency, Car, Ticket, Journey,Booking } from "../models/index.js";
+import { Route, TravelAgency, Car, Ticket, Journey,Booking,direction } from "../models/index.js";
 import { catchAsync } from "../middlewares/globaleerorshandling.js";
 
 const getAllDynamic = (model, populateOptions) => {
@@ -41,7 +41,7 @@ const getAllDynamic = (model, populateOptions) => {
     }
   };
 };
-
+const getAlldirections = catchAsync(getAllDynamic(direction));
 const getAllRoutes = catchAsync(getAllDynamic(Route));
 const getAllTravelAgencies = catchAsync(getAllDynamic(TravelAgency));
 const getAllCars = catchAsync(getAllDynamic(Car));
@@ -58,12 +58,11 @@ const journeyPopulateOptions = [
 const ticketPopulateOptions = [
   { path: 'directionId' },
   { path: 'journeyId' },
-  { path: 'TravelAgencyId' },  // Populate the TravelAgency reference
-  { path: 'carId' },  // Populate the Car reference
-  // Add other paths you want to populate
+  { path: 'TravelAgencyId' }, 
+  { path: 'carId' }, 
 ];
 const getAllBookings=catchAsync(getAllDynamic(Booking));
 const getAllTickets = catchAsync(getAllDynamic(Ticket, ticketPopulateOptions));
 const getAllJourneys = catchAsync(getAllDynamic(Journey, journeyPopulateOptions));
 
-export { getAllBookings,getAllRoutes, getAllTravelAgencies, getAllCars, getAllTickets, getAllJourneys };
+export { getAllBookings,getAllRoutes, getAllTravelAgencies, getAllCars, getAllTickets, getAllJourneys ,getAlldirections};

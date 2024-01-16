@@ -11,6 +11,7 @@ const directionSchema = new mongoose.Schema({
     ref: "Route",
     required: false
   },
+  
   directionId: {
     type: mongoose.Types.ObjectId,
     required: false
