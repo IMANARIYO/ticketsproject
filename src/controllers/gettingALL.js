@@ -19,7 +19,7 @@ const getAllDynamic = (model, populateOptions) => {
           departureDate: { $eq: currentDate },
           $or: [
             { departureTime: { $gte: currentTime } }, // Departure time greater than or equal to current time
-            { departureDate: { $gt: currentDate } }    // If departure date is greater than today, include it
+            { departureDate: { $gte: currentDate } }    // If departure date is greater than today, include it
           ]
         }).populate('TravelAgencyId') // Populate all fields from TravelAgency
         .populate('carId') // Populate all fields from Car
