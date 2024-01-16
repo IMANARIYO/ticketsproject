@@ -14,7 +14,7 @@ const createDynamic = (model) => {
 let Routedata=  await Route.findById(RouteId)
 
 let TravelAgencydata=await TravelAgency.findById(TravelAgencyId);
-
+newObject.price=Routedata.price
 newObject.departureCity=Routedata.departureCity
 newObject.destinationCity=Routedata.destinationCity
 newObject.RouteId=RouteId
