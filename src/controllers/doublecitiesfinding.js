@@ -5,6 +5,9 @@ const findDocumentByCities = (model) => catchAsync(async (req, res, next) => {
   const { departureCity, destinationCity } = req.body;
 
   const result = await model.findOne({ departureCity, destinationCity });
+  if(model == Journey ){
+    const result = await model.find({ departureCity, destinationCity }); 
+  }
 
   if (!result) {
     return res.status(404).json({
@@ -13,10 +16,7 @@ const findDocumentByCities = (model) => catchAsync(async (req, res, next) => {
     });
   }
 
-//   res.status(200).json({
-//     message: `One ${model.modelName} found for departure city: ${departureCity} and destination city: ${destinationCity}`,
-//     data: result,
-//   });
+
 return result;
 });
 
