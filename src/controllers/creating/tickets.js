@@ -5,6 +5,7 @@ const buyTickets = catchAsync(async (req, res, next) => {
   try {
     const { journeyId } = req.params;
 
+console.log("request.body  is  ----",req.body)
     // Fetch Journey information
     const journey = await Journey.findById(journeyId)
       .populate('carId')
@@ -27,7 +28,7 @@ const buyTickets = catchAsync(async (req, res, next) => {
       departureDate,
       departureTime,
     } = journey;
-
+const{phone,email,fullNames}=req.body
     // Fetch additional information from related models
     const car = await Car.findById(carId);
     const travelAgency = await TravelAgency.findById(TravelAgencyId);
@@ -53,7 +54,7 @@ const buyTickets = catchAsync(async (req, res, next) => {
         message: `Some related information is missing: ${missingInfo.join(', ')}`,
       });
     }
-let   payedSeats=journey.payedSeats
+let  payedSeats=journey.payedSeats
 let seat_on_number=0; 
 let nonPayedSeats=journey.nonPayedSeats;
 if(nonPayedSeats>0){
@@ -69,7 +70,7 @@ if(seat_on_number==0){
 journey.payedSeats++;
 journey.nonPayedSeats--;
     // Create a new ticket with auto-filled fields
-
+let user= req.userId;
     const newTicket = await Ticket.create({
       directionId: journey.directionId,
       travelAgencyId: travelAgency._id,
@@ -81,7 +82,8 @@ journey.nonPayedSeats--;
       departureDate,
       departureTime,
       seat_on_number,
-      journeyId
+      journeyId,phone,email,fullNames,
+      user
     });
 
     // Update Journey information

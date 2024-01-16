@@ -3,7 +3,7 @@ import  {userconst}  from "../models/index.js";
 import { passComparer,tokengenerating,passHashing } from "../utils/index.js";
 export const login= async (req,res) =>{
 try{
-  console.log(req.body.email);
+  // console.log(req.body.email);
 let user = await userconst.findOne({email:req.body.email});
 if(user){
     
@@ -29,8 +29,8 @@ else if (!user) {
      }
 
 }catch(err){
-    console.log("its in login function------check the following error-------- ");
-    console.log(err.message)
+  return res.status(409).json({error:err.message});
+    
 }
 }
 

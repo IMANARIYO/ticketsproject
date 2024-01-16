@@ -12,6 +12,7 @@ import {
               });
             }
             let deleted = await model.findByIdAndDelete(id);
+            
             if (!deleted) {
               return res.status(409).json({
                 message: `Error deleting document with ID: ${id} in ${model.modelName} collection.`

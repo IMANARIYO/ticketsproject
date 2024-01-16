@@ -3,7 +3,6 @@ import { tokengenerating, passHashing } from "../utils/index.js";
 import { userconst } from "../models/usersModel.js";
 import { sendEmail } from "../utils/index.js";
 import { signupHtmlMessage } from "../utils/index.js";
-import nodemailer from"nodemailer"
 import cron from "node-cron";
 import { generateOTP } from "../utils/index.js";
 import { catchAsync } from "../middlewares/globaleerorshandling.js";
@@ -19,11 +18,9 @@ const scheduleUserDeletion = (userId, signupTime) => {
   cron.schedule(cronExpression, async () => {
     try {
       const user = await userconst.findById(userId);
-console.log("the user to delete--------",user)
       if (user && !user.verified) {
         let deleted = await userconst.findByIdAndDelete(userId);
-       // await userconst.deleteOne({ _id: userId });
-        console.log(`User ${deleted} deleted due to expiration of verification period.`);
+      
       }
     } catch (error) {
       console.error("Error deleting unverified user:", error.message);
@@ -37,11 +34,11 @@ console.log("the user to delete--------",user)
 export const signup = catchAsync(async (req, res, next) => {
 
   let user = await userconst.findOne({ email: req.body.email });
-  //  if (user) {
-  //     return res.status(409).json({ message: "Email is already in use."
+   if (user) {
+      return res.status(409).json({ message: "Email is already in use."
     
-  //     });
-  //    }
+      });
+     }
 
   let hashedPassword = await passHashing(req.body.password);
   let newUserDetails = { ...req.body, password: hashedPassword };

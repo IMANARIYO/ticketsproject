@@ -47,7 +47,6 @@ mongoose
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on the port http://localhost:${process.env.PORT}`);
-  console.log("the current date ------------------",datew)
+ 
 });
 
-console.log(new Date().toLocaleTimeString('en-US', { hour12: false }))

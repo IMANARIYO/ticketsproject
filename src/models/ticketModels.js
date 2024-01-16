@@ -26,6 +26,24 @@ const ticketSchema = new mongoose.Schema(
       ref: 'Car',
       required: false,
     },
+    user:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'users',
+      required: false,
+    },
+    fullNames: {
+      type: String,
+      required:false
+  },
+  email: {
+      type: String,
+      required:false
+    },
+
+ phone: {
+  type:String,
+  required:false
+ },
     travelAgencename: { type: String },
     departureCity: {
       type: String,

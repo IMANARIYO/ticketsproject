@@ -21,11 +21,11 @@ export const generateOTP = (expiryMinutes = 5) => {
     expiresAt: expiryTime,
   };
 }; 
-console.log("the generated otp is",generateOTP().code)
+// console.log("the generated otp is",generateOTP().code)
 
 export const isOTPValid = (storedOTP, enteredOTP, expiresAt, res) => {
-  console.log('Entered OTP:', enteredOTP);
-  console.log('Stored OTP:', storedOTP);
+  // console.log('Entered OTP:', enteredOTP);
+  // console.log('Stored OTP:', storedOTP);
 
   if (storedOTP !== enteredOTP) {
     res.status(401).json({ message: `Enter a valid OTP. Entered: ${enteredOTP}, Stored: ${storedOTP}` });
@@ -37,7 +37,7 @@ export const isOTPValid = (storedOTP, enteredOTP, expiresAt, res) => {
 
   // Ensure expiresAt is correctly parsed as a Date object
   const storedExpiresAt = new Date(expiresAt);
-  console.log('Stored Expires At:', storedExpiresAt);
+  // console.log('Stored Expires At:', storedExpiresAt);
 
   if (currentDateTime > storedExpiresAt) {
     res.status(409).json({

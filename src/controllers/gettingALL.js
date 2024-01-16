@@ -21,7 +21,13 @@ const getAllDynamic = (model, populateOptions) => {
             { departureTime: { $gte: currentTime } }, // Departure time greater than or equal to current time
             { departureDate: { $gt: currentDate } }    // If departure date is greater than today, include it
           ]
-        });
+        }).populate('TravelAgencyId') // Populate all fields from TravelAgency
+        .populate('carId') // Populate all fields from Car
+        .populate('directionId') // Populate all fields from Direction
+        .populate('RouteId') // Populate all fields from Route
+        .populate('pendingtickets') // Populate all fields from Ticket
+        .populate('payedticketsbooked') // Populate all fields from Ticket or Booking
+        .populate('ticketsbooked') // Populate all fields from Ticket;
       }
 
       const allDocs = await query.exec();
@@ -51,9 +57,9 @@ const getAllCars = catchAsync(getAllDynamic(Car));
 const journeyPopulateOptions = [
   { path: 'TravelAgencyId' },
   { path: 'carId' },
-  { path: 'RouteId' },
+  { path: 'directionId' },
   { path: 'pendingtickets' },
-  // Add other paths you want to populate
+  
 ];
 const ticketPopulateOptions = [
   { path: 'directionId' },

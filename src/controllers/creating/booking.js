@@ -9,7 +9,7 @@ const createDynamic = (model) => {
   return (async (req, res, next) => {
     try {
       let newObject = { ...req.body}
-
+newObject.user=req.userId
       const { departureCity, destinationCity,TravelAgencyId } = req.body;
       let travelAgencedata=await TravelAgency.findById(TravelAgencyId)
       if (!travelAgencedata) {

@@ -13,3 +13,4 @@ export *from'./doublecitiesfinding.js'
 export * from"./creating/booking.js"
 export * from"./creating/bookingspecialcontrollers/payforbooking.js"
 export * from"./paypack.js"
+export * from"./deleteall.js"
