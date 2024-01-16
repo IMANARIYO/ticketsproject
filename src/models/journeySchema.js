@@ -102,7 +102,7 @@ const journeySchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Started', 'Pending', 'Completed', 'Canceled', 'Delayed', 'Issued', 'BackupNeeded', 'Accident', 'NeedRepair'],
+    enum: ['available', 'Pending', 'unavailble'],
     default: 'Pending',
   },
   agents: [{

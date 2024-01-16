@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import { datew } from "./src/utils/datefunctin.js";
+import { updateJourneyStatus } from "./src/controllers/creating/journeyfunctions.js";
 import yaml from "yamljs";
 import twilio from "twilio";
 import cors from "cors";
@@ -50,3 +50,4 @@ app.listen(process.env.PORT, () => {
  
 });
 
+cron.schedule('*/5 * * * *', updateJourneyStatus);
