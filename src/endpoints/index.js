@@ -6,7 +6,7 @@ import directionRouter from"./directionsendpoint.js"
 import RouteRouter from "./routesendpoints.js";
 import JourneyRouter from "./journeyendpoints.js";
 import bookingRouter from "./bookingrouters.js";
-import payRouter from "./payingendpoints.js";
+// import payRouter from "./payingendpoints.js";
 import express from"express"
 
 const mainRouter=express.Router();
@@ -19,5 +19,5 @@ const mainRouter=express.Router();
      mainRouter.use("/journey",JourneyRouter)
      mainRouter.use("/booking",bookingRouter)
      mainRouter.use("/tickets",TicketRouter)
-     mainRouter.use("/pay",payRouter)
+     // mainRouter.use("/pay",payRouter)
 export default mainRouter;

@@ -4,4 +4,5 @@ import  express from "express";
 const JourneyRouter = express.Router();
 JourneyRouter.post("/createJourney",createJourney)
 JourneyRouter.get("/getAllJourneys",getAllJourneys)
+
 export default JourneyRouter

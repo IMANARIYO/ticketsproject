@@ -1,7 +1,9 @@
 {
     "name": "ticketsbooking",
     "version": "1.0.0",
+    "type": "module",
     "description": "",
+
     "main": "ticketsserver.js",
     "scripts": {
       "start": "nodemon --exec babel-node ticketsserver.js"
