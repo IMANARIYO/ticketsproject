@@ -8,11 +8,11 @@ const getMyData = (model) => {
       let myData;
 
       if (model === Booking) {
-        myData = await Booking.findOne({ user: user })
+        myData = await Booking.find({ user: user })
           .populate('directionId')
           .populate('TravelAgencyId');
       } else if (model === Ticket) {
-        myData = await Ticket.findOne({ user: user })
+        myData = await Ticket.find({ user: user })
           .populate('directionId')
           .populate('journeyId')
           .populate('travelAgencyId')
@@ -32,8 +32,6 @@ const getMyData = (model) => {
     }
   };
 };
-
-// Example usage
 const getMyBookingData = getMyData(Booking);
 const getMyTicketData = getMyData(Ticket);
 

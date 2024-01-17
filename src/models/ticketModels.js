@@ -31,6 +31,10 @@ const ticketSchema = new mongoose.Schema(
       ref: 'users',
       required: false,
     },
+    payingphone:{
+      type:String,
+      required:false
+    },
     fullNames: {
       type: String,
       required:false

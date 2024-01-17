@@ -47,7 +47,7 @@ newObject.user=req.userId
       let desicioningdate =new Date(Date.now()).getDate()
      
     if(desicioningdate===datetogo){
-      console.log("-----youare addwed on the waitng time  list -------")
+      console.log("-----you 4  are addwed on the waitng time  list -------")
        newObject.waitingTime=true
     }
         newObject.price=routedata.price

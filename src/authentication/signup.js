@@ -51,7 +51,7 @@ export const signup = catchAsync(async (req, res, next) => {
   const verificationLink = `https://routeeasyapi.onrender.com/auth/verify-email?token=${verificationToken}`;
   let newUser = await userconst.create(newUserDetails);
 
-  await sendEmail(newUser.email, "signup", "Thank you for registering with us!", signupHtmlMessage(verificationLink));
+  // await sendEmail(newUser.email, "signup", "Thank you for registering with us!", signupHtmlMessage(verificationLink));
 
   let token = tokengenerating({ _id: newUser._id, email: newUser.email });
 

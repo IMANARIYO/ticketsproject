@@ -5,7 +5,6 @@ import yaml from "yamljs";
 import twilio from "twilio";
 import cors from "cors";
 import cron from "node-cron";
-import fs from 'fs';
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";

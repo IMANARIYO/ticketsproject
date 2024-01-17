@@ -54,21 +54,20 @@ const{phone,email,fullNames}=req.body
         message: `Some related information is missing: ${missingInfo.join(', ')}`,
       });
     }
+let plannedSeats=journey.plannedSeats   
 let  payedSeats=journey.payedSeats
-let seat_on_number=0; 
 let nonPayedSeats=journey.nonPayedSeats;
-if(nonPayedSeats>0){
-  seat_on_number=payedSeats+1;
-}
-if(seat_on_number==0){
-  return res.status(403).json({
-    status: 'error',
-    message: 'Sorry, the journey is fully booked. No more seats available for this journey  you can check for other journeys next to this .',
-  });
+
+let seat_on_number=0; 
+
+
+if(journey.ticketsbooked.length<journey.plannedSeats){
+  seat_on_number=journey.ticketsbooked.length
 }
 
-journey.payedSeats++;
-journey.nonPayedSeats--;
+
+
+journey.nonPayedSeats=journey.ticketsbooked.length+1
     // Create a new ticket with auto-filled fields
 let user= req.userId;
     const newTicket = await Ticket.create({
@@ -81,17 +80,15 @@ let user= req.userId;
       price: route.price,
       departureDate,
       departureTime,
-      seat_on_number,
       journeyId,phone,email,fullNames,
       user
     });
-
-    // Update Journey information
     journey.ticketsbooked.push(newTicket._id);
     await journey.save();
 
     res.status(201).json({
-      message: "Ticket created successfully.",
+      message: "Ticket added to pending tickets  successfully.",
+      notice:"booking a ticket doesnt grants you  a ticket  it will only be confirmed after paying",
       data: newTicket,
     });
   } catch (error) {

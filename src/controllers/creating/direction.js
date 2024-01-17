@@ -12,14 +12,14 @@ const createDynamic = (model) => {
        let TravelAgencyId=req.params.TravelAgencyId
         let newObject = { ...req.body}
 let Routedata=  await Route.findById(RouteId)
-
 let TravelAgencydata=await TravelAgency.findById(TravelAgencyId);
 newObject.price=Routedata.price
 newObject.departureCity=Routedata.departureCity
 newObject.destinationCity=Routedata.destinationCity
-newObject.RouteId=RouteId
+newObject.RouteId=req.body.RouteId
 newObject.TravelAgencyId=TravelAgencyId
 newObject.directionName=Routedata.routeName
+console.log("the route id to push",RouteId)
 TravelAgencydata.routes.push(RouteId)
 
 await TravelAgencydata.save()

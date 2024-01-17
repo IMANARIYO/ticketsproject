@@ -11,11 +11,15 @@ import { Journey } from '../../models/journeySchema.js';
     const journeysToUpdate = await Journey.find({
       departureTime: { $lte: currentTime },
       departureDate: currentDate,
+      status:"pending"
     });
-
+console.log("the journeys to update",journeysToUpdate)
     // Update the status of found journeys to 'Available'
     await Promise.all(journeysToUpdate.map(async (journey) => {
+      console.log("to be avalable",journey)
       journey.status = 'available';
+
+  
       await journey.save();
     }));
 
