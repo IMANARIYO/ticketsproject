@@ -21,7 +21,9 @@ const getAllDynamic = (model, populateOptions) => {
             { departureTime: { $gte: currentTime } }, // Departure time greater than or equal to current time
             { departureDate: { $gte: currentDate } }    // If departure date is greater than today, include it
           ]
-        }).populate('TravelAgencyId') // Populate all fields from TravelAgency
+        })
+        .sort({ departureDate: 1, departureTime: 1 }) // Sort by departureDate in ascending order, then by departureTime
+        .populate('TravelAgencyId') // Populate all fields from TravelAgency
         .populate('carId') // Populate all fields from Car
         .populate('directionId') // Populate all fields from Direction
         .populate('RouteId') // Populate all fields from Route
